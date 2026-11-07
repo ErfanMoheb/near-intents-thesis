@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEAR Intents thesis: usage vs value capture</title>
+<style>
+:root{--ink:#1d2433;--muted:#6b7385;--line:#e6e8ee;--green:#00a37a;--bg:#f7f8fa}
+*{box-sizing:border-box}body{margin:0;font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+main{max-width:1080px;margin:0 auto;padding:40px 20px 80px}
+h1{font-size:30px;line-height:1.2;margin:0 0 8px}.sub{color:var(--muted);margin:0 0 24px}
+.verdict{background:#fff;border:1px solid var(--line);border-left:5px solid var(--green);border-radius:10px;padding:16px 20px;margin:0 0 24px}
+.verdict b{font-size:18px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:0 0 28px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}.tile .v{font-size:24px;font-weight:700}.tile .l{color:var(--muted);font-size:13px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:0 0 20px}
+.card h2{font-size:19px;margin:0 0 12px}.card img{width:100%;height:auto;border-radius:6px}
+.take{font-size:16px;margin:12px 0 6px}details{color:var(--muted);font-size:14px}code{font-size:13px;word-break:break-all}
+footer{color:var(--muted);font-size:14px;margin-top:32px}a{color:#3b6fd8}
+</style></head><body><main>
+<h1>NEAR: usage moved to Intents. Has value capture followed?</h1>
+<p class="sub">Snapshot 2026-11-05 · every number and chart is rebuilt from public, keyless data with <code>python build.py</code> · built at NEAR HACKATHON (Investment Thesis track)</p>
+<div class="verdict"><b>H1: “NEAR Intents volume leads NEAR's price better than raw on-chain activity.” → NOT SUPPORTED</b><br>
+Tested over 89 weeks (2025-02-08 → 2026-11-05). Intents is real, fee-paying demand; the token's link to it is not visible in the data yet. Full argument, counter-evidence and falsifiers: <a href="https://github.com/ErfanMoheb/near-intents-thesis/blob/main/THESIS.md">THESIS.md</a>.</div>
+<div class="tiles"><div class="tile"><div class="v">$4B</div><div class="l">Intents volume, last 30 days</div></div><div class="tile"><div class="v">$74.5M</div><div class="l">Intents fees, annualized</div></div><div class="tile"><div class="v">70.4×</div><div class="l">Market cap ÷ Intents fees</div></div><div class="tile"><div class="v">−91.8%</div><div class="l">Transactions vs peak</div></div><div class="tile"><div class="v">2.5%</div><div class="l">Net supply growth / yr</div></div><div class="tile"><div class="v">0.84%</div><div class="l">Fee burn ÷ issuance</div></div></div>
+
+<section class="card">
+  <h2>Usage moved: raw activity fell, Intents rose</h2>
+  <img src="charts/01_activity_vs_intents.png" alt="Usage moved: raw activity fell, Intents rose">
+  <p class="take">Daily transactions are down 91.8% from their Jan 2025 peak and active accounts are down 97%, while monthly Intents volume went from $6.4M (Jan 2025) to $4.8B (Sep 2026).</p>
+  <details><summary>Source and method</summary><ul><li><code>https://api.nearblocks.io/v1/charts → txns, active_accounts (30-day mean)</code></li><li><code>https://api.llama.fi/summary/dexs/near-intents → monthly sum</code></li></ul>
+  <p>Code: <a href="https://github.com/ErfanMoheb/near-intents-thesis/blob/main/pipeline/charts.py"><code>pipeline/charts.py::activity_vs_intents</code></a></p></details>
+</section>
+<section class="card">
+  <h2>Intents is now most of NEAR&#x27;s trading</h2>
+  <img src="charts/02_intents_share.png" alt="Intents is now most of NEAR&#x27;s trading">
+  <p class="take">Over the last 90 days, NEAR Intents was 83.9% of all DEX volume DefiLlama attributes to the NEAR chain.</p>
+  <details><summary>Source and method</summary><ul><li><code>https://api.llama.fi/summary/dexs/near-intents</code></li><li><code>https://api.llama.fi/overview/dexs/near</code></li><li><code>share = Intents ÷ NEAR DEX volume, monthly</code></li></ul>
+  <p>Code: <a href="https://github.com/ErfanMoheb/near-intents-thesis/blob/main/pipeline/charts.py"><code>pipeline/charts.py::intents_share</code></a></p></details>
+</section>
+<section class="card">
+  <h2>Price vs Intents, week by week</h2>
+  <img src="charts/03_price_vs_intents.png" alt="Price vs Intents, week by week">
+  <p class="take">Week-over-week changes in Intents volume and in NEAR&#x27;s price are essentially uncorrelated (same-week correlation -0.04).</p>
+  <details><summary>Source and method</summary><ul><li><code>https://api.nearblocks.io/v1/charts → near_price (weekly close)</code></li><li><code>https://api.llama.fi/summary/dexs/near-intents → weekly sum</code></li></ul>
+  <p>Code: <a href="https://github.com/ErfanMoheb/near-intents-thesis/blob/main/pipeline/charts.py"><code>pipeline/charts.py::price_vs_intents</code></a></p></details>
+</section>
+<section class="card">
+  <h2>The test: does any activity series lead price?</h2>
+  <img src="charts/04_lead_lag.png" alt="The test: does any activity series lead price?">
+  <p class="take">No bar leaves the grey noise band for any series: over 89 weeks, none of them moves with or ahead of NEAR&#x27;s price (Intents best: 0.205 at lag 8 vs a noise band of ±0.266).</p>
+  <details><summary>Source and method</summary><ul><li><code>weekly log-changes, corr(series[t−lag], price[t]) for lag −8…+8</code></li><li><code>95% band: max |corr| under 2,000 circular-shift permutations (seed 7)</code></li></ul>
+  <p>Code: <a href="https://github.com/ErfanMoheb/near-intents-thesis/blob/main/pipeline/analysis.py"><code>pipeline/analysis.py::lead_lag</code></a></p></details>
+</section>
+<section class="card">
+  <h2>Issuance vs burn</h2>
+  <img src="charts/05_supply_burn.png" alt="Issuance vs burn">
+  <p class="take">Net supply now grows about 2.5% a year (it averaged 4.91% in 2024), and fee burn offsets only 0.84% of new issuance.</p>
+  <details><summary>Source and method</summary><ul><li><code>https://api.nearblocks.io/v1/charts → total_supply, txn_fee (yoctoNEAR ÷ 1e24)</code></li><li><code>burn = 70% of transaction fees (NEAR protocol rule)</code></li></ul>
+  <p>Code: <a href="https://github.com/ErfanMoheb/near-intents-thesis/blob/main/pipeline/analysis.py"><code>pipeline/analysis.py::supply_and_burn</code></a></p></details>
+</section>
+<section class="card">
+  <h2>Revenue vs dilution</h2>
+  <img src="charts/06_fees_vs_issuance.png" alt="Revenue vs dilution">
+  <p class="take">Annualized Intents fees ($74.5M) equal 57.8% of the dollar value of NEAR issued over the last year ($128.9M at today&#x27;s price); on 68 of 309 days in 2026, fees ran above issuance. Whether those fees reach NEAR holders is not visible in this data.</p>
+  <details><summary>Source and method</summary><ul><li><code>https://api.llama.fi/summary/fees/near-intents → 30-day sum × 365/30</code></li><li><code>https://api.nearblocks.io/v1/charts → supply change + burn, × price</code></li></ul>
+  <p>Code: <a href="https://github.com/ErfanMoheb/near-intents-thesis/blob/main/pipeline/charts.py"><code>pipeline/charts.py::valuation</code></a></p></details>
+</section>
+<footer>Sources: NearBlocks public charts API, DefiLlama public API. No API keys. Not financial advice. Code and data: <a href="https://github.com/ErfanMoheb/near-intents-thesis">https://github.com/ErfanMoheb/near-intents-thesis</a></footer>
+</main></body></html>

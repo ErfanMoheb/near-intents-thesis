@@ -1,0 +1,11 @@
+{
+  "fetched_at_utc": "2026-11-07T00:41:46+00:00",
+  "sources": {
+    "nearblocks_daily": "https://api.nearblocks.io/v1/charts",
+    "defillama_tvl": "https://api.llama.fi/v2/historicalChainTvl/Near",
+    "defillama_dex_volume": "https://api.llama.fi/overview/dexs/near?excludeTotalDataChart=false&excludeTotalDataChartBreakdown=true",
+    "defillama_intents_volume": "https://api.llama.fi/summary/dexs/near-intents?excludeTotalDataChart=false",
+    "defillama_app_fees": "https://api.llama.fi/overview/fees/near?excludeTotalDataChart=false&excludeTotalDataChartBreakdown=true",
+    "defillama_intents_fees": "https://api.llama.fi/summary/fees/near-intents?excludeTotalDataChart=false"
+  }
+}
